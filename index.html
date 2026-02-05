@@ -2,23 +2,111 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>My First Interactive Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Deeper Cut – Leaflet Map (Bath, PA)</title>
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="style.css" />
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    #map {
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* Bold text for tooltips */
+    .tooltip-bold {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <div id="map"></div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="main.js"></script>
-    <div id="map"></div>
+  <div id="map"></div>
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- YOUR JS -->
-  <script src="main.js"></script>
+  <script>
+    /*
+      STEP 1:
+      Center and zoom the map on my hometown: Bath, PA
+    */
+    var map = L.map('map').setView([40.726556, -75.390338], 14);
+
+    /*
+      STEP 8:
+      Change the base map (CARTO Voyager instead of default OSM)
+    */
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      maxZoom: 20,
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+    }).addTo(map);
+
+    /*
+      STEP 2:
+      Marker, circle, and polygon placed in meaningful locations
+      STEP 5:
+      Use tooltips instead of popups
+      STEP 6:
+      Tooltip text is bold
+    */
+
+    // Marker – Bath Borough / Town Center
+    var marker = L.marker([40.72788, -75.39183]).addTo(map);
+    marker.bindTooltip(
+      '<span class="tooltip-bold">Bath Borough / Town Center</span>',
+      { sticky: true }
+    );
+
+    /*
+      STEP 3:
+      Change circle color and double its size
+      STEP 4:
+      Fill opacity set to 1
+      STEP 7:
+      Additional option added (dashArray)
+    */
+
+    // Circle – Keystone Park
+    var circle = L.circle([40.7242635, -75.3974034], {
+      color: 'blue',
+      fillColor: 'blue',
+      fillOpacity: 1,
+      radius: 400,
+      dashArray: '6 8'
+    }).addTo(map);
+
+    circle.bindTooltip(
+      '<span class="tooltip-bold">Keystone Park</span>',
+      { sticky: true }
+    );
+
+    // Polygon – Cliff Cowling Field
+    var polygon = L.polygon([
+      [40.72325, -75.39094],
+      [40.72420, -75.39220],
+      [40.72240, -75.39210]
+    ], {
+      color: 'green',
+      fillOpacity: 1
+    }).addTo(map);
+
+    polygon.bindTooltip(
+      '<span class="tooltip-bold">Cliff Cowling Field</span>',
+      { sticky: true }
+    );
+  </script>
+
 </body>
 </html>
+
+
